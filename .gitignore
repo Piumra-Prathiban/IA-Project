@@ -1,0 +1,95 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+htmlcov/
+*.cover
+*.log
+
+# Virtual environments
+cs188/
+venv/
+.venv/
+env/
+ENV/
+.venv*/
+*.venv
+virtualenv/
+.conda/
+.miniconda/
+
+# Project archives / generated output
+search.zip
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# CS188 Pacman runtime artifacts
+search/search/**/*.png
+search/search/**/*.avi
+search/search/**/*.gif
+search/search/graphicsDisplay.pyc
+!search/search/layouts/*.png
+
+# Command Code session data
+.commandcode/
+
+# Editors / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+.project
+.pydevproject
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.json

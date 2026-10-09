@@ -467,8 +467,37 @@ def foodHeuristic(state: Tuple[Tuple, List[List]], problem: FoodSearchProblem):
     problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
-    "*** YOUR CODE HERE ***"
-    return 0
+    foodPositions = foodGrid.asList()
+    if not foodPositions:
+        return 0
+
+    # Cache a shortest-path distance map from every food position.  The maze
+    # walls never change, so these maps can be reused for every heuristic call.
+    distanceMaps = problem.heuristicInfo.setdefault('foodDistanceMaps', {})
+    walls = problem.walls
+
+    for food in foodPositions:
+        if food in distanceMaps:
+            continue
+
+        distances = {food: 0}
+        frontier = util.Queue()
+        frontier.push(food)
+
+        while not frontier.isEmpty():
+            current = frontier.pop()
+            x, y = current
+            for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+                neighbour = (x + dx, y + dy)
+                if not walls[neighbour[0]][neighbour[1]] and neighbour not in distances:
+                    distances[neighbour] = distances[current] + 1
+                    frontier.push(neighbour)
+
+        distanceMaps[food] = distances
+
+    # Any route that eats all remaining food must at least reach the food that
+    # is farthest away in true maze distance.
+    return max(distanceMaps[food][position] for food in foodPositions)
 
 class ClosestDotSearchAgent(SearchAgent):
     "Search for all food using a sequence of searches"

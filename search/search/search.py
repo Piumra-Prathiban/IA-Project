@@ -150,27 +150,34 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
+    # Each frontier entry is (state, path of actions so far, cost so far g).
+    # Its priority is f = g + h, where h is the heuristic's estimate to the goal.
     startState = problem.getStartState()
     frontier = util.PriorityQueue()
     frontier.push((startState, [], 0), heuristic(startState, problem))
-    expanded = set()
+    visited = set()
 
     while not frontier.isEmpty():
-        state, actions, pathCost = frontier.pop()
-        if state in expanded:
-            continue
-        if problem.isGoalState(state):
-            return actions
+        state, path, costSoFar = frontier.pop()
 
-        expanded.add(state)
-        for successor, action, stepCost in problem.getSuccessors(state):
-            if successor not in expanded:
-                successorCost = pathCost + stepCost
-                frontier.push(
-                    (successor, actions + [action], successorCost),
-                    successorCost + heuristic(successor, problem)
-                )
-    return []
+        # A cheaper route to this state was already expanded, so skip it.
+        if state in visited:
+            continue
+        visited.add(state)
+
+        # Test for the goal when a node is popped (not when pushed) so the
+        # first solution found is the cheapest one.
+        if problem.isGoalState(state):
+            return path
+
+        for nextState, action, stepCost in problem.getSuccessors(state):
+            if nextState not in visited:
+                newCost = costSoFar + stepCost
+                priority = newCost + heuristic(nextState, problem)
+                frontier.push((nextState, path + [action], newCost), priority)
+
+    return []  # no path to a goal exists
+
 
 
 # Abbreviations
